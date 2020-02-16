@@ -157,6 +157,19 @@ func TestRegistryEndpoints(t *testing.T) {
 				"https://registry-3.io",
 			},
 		},
+		"wildcard endpoint passthrough": {
+			mirrors: map[string]criconfig.Mirror{
+				"*": {
+					Endpoints: []string{
+						"http://*",
+					},
+				},
+			},
+			host: "registry-3.io",
+			expected: []string{
+				"http://registry-3.io",
+			},
+		},
 		"host should take precedence if both host and wildcard mirrors are configured": {
 			mirrors: map[string]criconfig.Mirror{
 				"*": {

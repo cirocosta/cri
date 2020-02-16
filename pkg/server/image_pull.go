@@ -379,11 +379,17 @@ func (c *criService) registryEndpoints(host string) ([]string, error) {
 		if err != nil {
 			return nil, errors.Wrap(err, "parse endpoint url")
 		}
+
+		if u.Host == "*" {
+			return []string{u.Scheme + "://" + host}, nil
+		}
+
 		if u.Host == host {
 			// Do not add default if the endpoint already exists.
 			return endpoints, nil
 		}
 	}
+
 	return append(endpoints, defaultScheme(defaultHost)+"://"+defaultHost), nil
 }
 
